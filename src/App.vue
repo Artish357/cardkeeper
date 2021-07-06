@@ -16,7 +16,7 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 5px;
 }
 
 #nav a {
@@ -26,5 +26,20 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.note-title {
+  font-size: 22px;
+  text-align: left;
+  width: 100%;
+  display: block;
+  border-right: 1px;
+}
+
+.border {
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>
