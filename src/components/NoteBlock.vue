@@ -1,27 +1,28 @@
 <template>
-    <div class="border note-container">
+    <SheetCard class="note-container">
         <span class="note-title">{{ title }}</span>
         <div class="input-container">
             <input/>
         </div>
-    </div>
+    </SheetCard>
 </template>
 
 <script>
+import SheetCard from "@/components/SheetCard"
 export default {
     setup() {
         
     },
     props: {
         title: String
+    },
+    components: {
+        SheetCard
     }
 }
 </script>
 
 <style scoped>
-.note-container {
-    padding: 10px;
-}
 .input-container {
     display: flex;
 }

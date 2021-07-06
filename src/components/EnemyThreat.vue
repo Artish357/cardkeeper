@@ -1,5 +1,5 @@
 <template>
-    <div class="border">
+    <SheetCard>
         <table>
             <ThreatBase />
             <tr>
@@ -28,13 +28,16 @@
             </tr>
         </table>
         <input type="checkbox" v-for="i in harmCapacity" :key="i"/>
-    </div>
+    </SheetCard>
 </template>
 <script>
 import ThreatBase from "@/components/ThreatBase"
+import SheetCard from "@/components/SheetCard"
+
 export default {
     components: {
-        ThreatBase
+        ThreatBase,
+        SheetCard
     },
     data: () => ({
         harmCapacity: 8
