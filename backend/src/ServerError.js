@@ -1,5 +1,6 @@
 export default class ServerError extends Error {
-    ServerError(statusCode, message) {
+    constructor(statusCode, message) {
+      super()
       this.statusCode = statusCode
       this.message = message
     }
