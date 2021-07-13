@@ -1,8 +1,10 @@
-function errorMiddleware(err, req, res, next) {
-    res.status(err.statusCode || 500).json({
+// eslint-disable-next-line no-unused-vars
+function errorMiddleware(err, req, res, _next) {
+    const code = err.statusCode || 500
+    const message = err.message || "Unexpected error occurred"
+    res.status(code).json({
         status: 'error',
-        statusCode: err.statusCode,
-        message: err.message
+        message: message
     })
 }
 
