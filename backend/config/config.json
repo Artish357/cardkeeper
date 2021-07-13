@@ -4,6 +4,7 @@
     "password": null,
     "database": "database_development",
     "host": "database.sqlite",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "logging": false
   }
 }
