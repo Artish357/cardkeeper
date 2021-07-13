@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { announce } from '../../controllers/UserController.js';
+import { announce } from '../controllers/UserController.js';
 
 const router = Router()
 
