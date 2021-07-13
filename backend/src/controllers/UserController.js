@@ -1,9 +1,6 @@
-class UserController {
-    defaultMethod() {
-      return {
-        text: `You've reached the ${this.constructor.name} default method`
-      };
-    }
+function announce() {
+  return {
+    "message": "You have reached the user controller"
   }
-  
-export default UserController
+}
+export { announce }

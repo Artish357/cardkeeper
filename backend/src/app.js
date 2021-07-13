@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import MainRouter from './routers/MainRouter';
-import errorMiddleware from './middleware/ErrorMiddleware'
+import MainRouter from './routers/MainRouter.js';
+import errorMiddleware from './middleware/ErrorMiddleware.js'
 import { Sequelize } from "sequelize"
 
 // load the environment variables from the .env file
@@ -10,14 +10,13 @@ dotenv.config({
 });
 
 const app = express();
-const router = MainRouter;
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: 'path/to/database.sqlite'
 });
 
-app.use('/api', server.router);
+app.use('/api', MainRouter);
 
 // make server app handle any error
 app.use(errorMiddleware);
