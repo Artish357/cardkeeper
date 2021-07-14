@@ -4,7 +4,7 @@
   "description": "Backend for the cardkeeper utility",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon -e js,mjs,json,cjs src/app.js"
   },
   "type": "module",
   "author": "",

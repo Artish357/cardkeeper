@@ -12,6 +12,7 @@ dotenv.config({
 const app = express();
 ( async () => await models.sequelize.sync())()
 
+app.use(express.json())
 app.use('/api', MainRouter);
 
 // make server app handle any error
