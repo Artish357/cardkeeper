@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { newMystery, getAllMysteries, updateMystery, getMystery, deleteMystery } from "../controllers/MysteryController.js";
+import { newMystery, getAllMysteries, updateMystery, getMystery, deleteMystery, newMonsterThreat } from "../controllers/MysteryController.js";
 import ServerError from "../ServerError.js";
 
 const router = Router()
@@ -22,6 +22,18 @@ router.post('/new', async (req, res, next) => {
     res.status(200).json({
       "status": "ok",
       "data": newMysteryObj
+    });
+  } catch (err) {
+    next(err)
+  }
+});
+
+router.post('/id/:mysteryId/newMonsterThreat', async (req, res, next) => {
+  try {
+    const newMonsterThreatObj = await newMonsterThreat(req.params["mysteryId"])
+    res.status(200).json({
+      "status": "ok",
+      "data": newMonsterThreatObj
     });
   } catch (err) {
     next(err)

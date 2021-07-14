@@ -60,6 +60,9 @@ export default function (sequelize, DataTypes) {
   }, {
     sequelize,
     modelName: 'Mystery',
+    defaultScope: {
+      include: {all: true}
+    }
   })
   return Mystery;
 }

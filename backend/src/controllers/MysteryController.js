@@ -1,25 +1,30 @@
 import models from "../models/index.js"
+const {Mystery, MonsterThreat} = models
 
 function getAllMysteries() {
-    return models.Mystery.findAll()
+    return Mystery.findAll()
 }
 
 function getMystery(id) {
-    return models.Mystery.findByPk(id)
+    return Mystery.findByPk(id)
 }
 
-function newMystery() {
-    return models.Mystery.build({}).save()
+async function newMystery() {
+    return Mystery.build({}).save()
 }
 
 async function updateMystery(id, data) {
-    const mystery = await models.Mystery.findByPk(id)
+    const mystery = await Mystery.findByPk(id)
     return mystery.update(data)
 }
 
 async function deleteMystery(id) {
-    const mystery = await models.Mystery.findByPk(id)
+    const mystery = await Mystery.findByPk(id)
     return mystery.destroy() 
 }
 
-export {getAllMysteries, newMystery, updateMystery, getMystery, deleteMystery}
+async function newMonsterThreat(MysteryId){
+    return MonsterThreat.build({MysteryId}).save()
+}
+
+export {getAllMysteries, newMystery, updateMystery, getMystery, deleteMystery, newMonsterThreat}

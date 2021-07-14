@@ -14,17 +14,17 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-readdirSync(basename)
+const promises = readdirSync(basename)
   .filter(file => {
     return (file.indexOf('.') !== 0) && (file !== _basename(import.meta.url)) && (file.slice(-3) === '.js');
   })
-  .forEach(file => {
-    import(join(basename, file)).then(modelFn => {
+  .map(file => {
+    return import(join(basename, file)).then(modelFn => {
       const model = modelFn.default(sequelize, Sequelize.DataTypes);
       db[model.name] = model
     })
   });
-
+await Promise.all(promises) //eslint-disable-line
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
