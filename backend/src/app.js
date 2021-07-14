@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import MainRouter from './routers/MainRouter.js';
 import errorMiddleware from './middleware/ErrorMiddleware.js'
-import models from "./models/index.cjs";
+import models from "./models/index.js";
 
 // load the environment variables from the .env file
 dotenv.config({

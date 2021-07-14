@@ -1,14 +1,13 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+import sequelize from 'sequelize';
+const { Model } = sequelize
 let ServerError = null;
 import('../ServerError.js').then((se) => {
   ServerError = se.default;
 })
 
 const phases = ["day", "shadows", "sunset", "dusk", "nightfall", "midnight"]
-module.exports = (sequelize, DataTypes) => {
+export default function (sequelize, DataTypes) {
   class Mystery extends Model {
     /**
      * Helper method for defining associations.
@@ -63,4 +62,4 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Mystery',
   })
   return Mystery;
-};
+}

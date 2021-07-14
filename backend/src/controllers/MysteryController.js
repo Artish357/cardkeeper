@@ -1,4 +1,4 @@
-import models from "../models/index.cjs"
+import models from "../models/index.js"
 
 function getAllMysteries() {
     return models.Mystery.findAll()
