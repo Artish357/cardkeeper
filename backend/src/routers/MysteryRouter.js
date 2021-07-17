@@ -1,9 +1,15 @@
 import { Router } from 'express';
-import { newMystery, getAllMysteries, updateMystery, getMystery, deleteMystery, newMonsterThreat } from "../controllers/MysteryController.js";
+import MysteryController from "../controllers/MysteryController.js";
 import ServerError from "../ServerError.js";
 
+const { newMystery, getAllMysteries, updateMystery, getMystery, deleteMystery, newThreat } = MysteryController
 const router = Router()
 
+/* -------------------------------------------------------------------------- */
+/*                               Mystery methods                              */
+/* -------------------------------------------------------------------------- */
+
+// Get all mysteries
 router.get('/', async (req, res, next) => {
   try {
     const mysteries = await getAllMysteries()
@@ -14,9 +20,10 @@ router.get('/', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-});
+})
 
-router.post('/new', async (req, res, next) => {
+// Create new mystery
+router.post('/', async (req, res, next) => {
   try {
     const newMysteryObj = await newMystery()
     res.status(200).json({
@@ -28,19 +35,8 @@ router.post('/new', async (req, res, next) => {
   }
 });
 
-router.post('/id/:mysteryId/newMonsterThreat', async (req, res, next) => {
-  try {
-    const newMonsterThreatObj = await newMonsterThreat(req.params["mysteryId"])
-    res.status(200).json({
-      "status": "ok",
-      "data": newMonsterThreatObj
-    });
-  } catch (err) {
-    next(err)
-  }
-});
-
-router.get('/id/:mysteryId', async (req, res, next) => {
+// Get mystery specified by id
+router.get('/:mysteryId', async (req, res, next) => {
   try {
     const mystery = await getMystery(req.params["mysteryId"])
     if (mystery === null) {
@@ -56,7 +52,21 @@ router.get('/id/:mysteryId', async (req, res, next) => {
   }
 })
 
-router.post('/id/:mysteryId', async (req, res, next) => {
+// Create new threat for the mystery with mysteryId
+router.post('/:mysteryId/threats', async (req, res, next) => {
+  try {
+    const newMonsterThreatObj = await newThreat(req.params["mysteryId"])
+    res.status(200).json({
+      "status": "ok",
+      "data": newMonsterThreatObj
+    });
+  } catch (err) {
+    next(err)
+  }
+});
+
+// Update mystery data
+router.post('/:mysteryId', async (req, res, next) => {
   try {
     const updated = await updateMystery(req.params["mysteryId"], req.body)
     res.json({
@@ -68,12 +78,12 @@ router.post('/id/:mysteryId', async (req, res, next) => {
   }
 })
 
-router.delete('/id/:mysteryId', async (req, res, next) => {
+// Delete mystery
+router.delete('/:mysteryId', async (req, res, next) => {
   try {
-    const deleted = await deleteMystery(req.params["mysteryId"])
+    await deleteMystery(req.params["mysteryId"])
     res.json({
-      "status": "ok",
-      "data": deleted
+      "status": "ok"
     })
   } catch (err) {
     next(err)

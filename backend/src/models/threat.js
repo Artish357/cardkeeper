@@ -3,13 +3,15 @@ import sequelize from 'sequelize';
 const { Model } = sequelize
 
 export default function (sequelize, DataTypes) {
-  class MonsterThreat extends Model {
-    static associate({Mystery, MonsterThreat}) { //eslint-disable-line
-      Mystery.hasMany(MonsterThreat),
-      MonsterThreat.belongsTo(Mystery)
+  class Threat extends Model {
+    static associate({Mystery, Threat}) { //eslint-disable-line
+      Mystery.hasMany(Threat, {
+        as: 'threats'
+      }),
+      Threat.belongsTo(Mystery, {'as': 'foo'})
     }
   }
-  MonsterThreat.init({
+  Threat.init({
     name: {type: DataTypes.STRING, defaultValue: ""},
     type: {type: DataTypes.STRING, defaultValue: "Monster"},
     subtype: {type: DataTypes.STRING, defaultValue: ""},
@@ -24,7 +26,7 @@ export default function (sequelize, DataTypes) {
   },
   {
     sequelize,
-    modelName: 'MonsterThreat'
+    modelName: 'Threat'
   })
-  return MonsterThreat
+  return Threat
 }
