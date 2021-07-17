@@ -8,7 +8,7 @@ const router = Router()
 
 router.use('/mysteries', MysteryRouter)
 router.use('/threats', ThreatRouter)
-router.get('/swagger.json', (req, res)=>{
+router.get('/openapi.json', (req, res)=>{
     swaggerDocument.servers[0] = {url: `http://${req.get('host')}/api`};
     res.json(swaggerDocument)
 })

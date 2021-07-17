@@ -21,7 +21,7 @@ app.use('/api', MainRouter);
 // Docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(null, {
   swaggerOptions: {
-    url: '/api/swagger.json'
+    url: '/api/openapi.json'
   }
 }));
 app.use('/', (req, res, next)=>{
