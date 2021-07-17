@@ -13,7 +13,7 @@ dotenv.config({
 
 const port = process.env.APP_PORT || 5000; 
 const swaggerDocument = YAML.load('./src/swagger.yaml');
-swaggerDocument.servers[0].url=`http://localhost:${port}/api`
+//swaggerDocument.servers[0].url=`http://localhost:${port}/api`
 
 const app = express();
 ( async () => await models.sequelize.sync())()
@@ -22,7 +22,11 @@ app.use(express.json())
 app.use('/api', MainRouter);
 
 // Docs
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/docs', function(req, res, next){
+  swaggerDocument.servers[0] = {url: `http://${req.get('host')}/api`};
+  req.swaggerDoc = swaggerDocument;
+  next();
+}, swaggerUi.serve, swaggerUi.setup());
 app.use('/', (req, res, next)=>{
   if (req.url === '/'){
     res.redirect('/docs')
