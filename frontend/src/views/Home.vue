@@ -36,7 +36,7 @@ export default {
   data: () => ({
     monsterCount: 1,
     threatCount: 1,
-  }),
+  })
 };
 </script>
 
