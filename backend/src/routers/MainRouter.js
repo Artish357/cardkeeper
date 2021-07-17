@@ -3,7 +3,7 @@ import MysteryRouter from './MysteryRouter.js'
 import ThreatRouter from './ThreatRouter.js'
 import YAML from 'yamljs'
 
-const swaggerDocument = YAML.load('./src/swagger.yaml');
+const swaggerDocument = YAML.load('./src/openapi.yaml');
 const router = Router()
 
 router.use('/mysteries', MysteryRouter)
