@@ -14,6 +14,7 @@ export default function (sequelize, DataTypes) {
     type: {type: DataTypes.STRING, defaultValue: "Monster"},
     subtype: {type: DataTypes.STRING, defaultValue: ""},
     motivation: {type: DataTypes.STRING, defaultValue: ""},
+    isMonster: {type: DataTypes.BOOLEAN, defaultValue: true},
     powers: {type: DataTypes.TEXT, defaultValue: ""},
     weaknesses: {type: DataTypes.TEXT, defaultValue: ""},
     attacks: {type: DataTypes.TEXT, defaultValue: ""},
