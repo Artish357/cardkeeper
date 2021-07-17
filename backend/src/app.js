@@ -13,7 +13,7 @@ dotenv.config({
 const port = process.env.APP_PORT || 5000; 
 
 const app = express();
-( async () => await models.sequelize.sync())()
+await models.sequelize.sync()
 
 app.use(express.json())
 app.use('/api', MainRouter);
