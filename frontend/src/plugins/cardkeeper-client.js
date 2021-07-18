@@ -5,6 +5,6 @@ api.init();
 
 export default {
     install(app) {
-        app.config.globalProperties.$getClient = api.getClient
+        app.config.globalProperties.$client = api.getClient()
     }
 }

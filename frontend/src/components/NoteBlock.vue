@@ -1,23 +1,29 @@
 <template>
-    <SheetCard class="note-container">
+    <SheetCard class="note-container card">
         <span class="note-title">{{ title }}</span>
         <div class="input-container">
-            <div class="textareaElement" contenteditable></div>
+            <n-input
+                type="textarea"
+                :autosize="{minRows: 3}"
+                style="width:100%;"
+                :value=modelValue
+                @update:value="$emit('update:modelValue', $event)"
+            ></n-input>
         </div>
     </SheetCard>
 </template>
 
 <script>
 import SheetCard from "@/components/SheetCard"
+import { NInput } from "naive-ui";
 export default {
-    setup() {
-        
-    },
     props: {
-        title: String
+        title: String,
+        modelValue: String
     },
     components: {
-        SheetCard
+        SheetCard,
+        NInput
     }
 }
 </script>
@@ -26,12 +32,13 @@ export default {
 .input-container {
     display: flex;
 }
-input {
+n-input {
   flex: 1;
   height: 100px;
   margin-top: 0;
   margin-bottom: 0;
   text-anchor: start;
+  box-sizing: border-box;
 }
 
 .textareaElement {

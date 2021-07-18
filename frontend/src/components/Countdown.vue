@@ -1,31 +1,49 @@
 <template>
-    <table>
-        <span class="note-title">Countdown</span>
-        <tr v-for="stage in phases" :key="stage">
-            <td>
-                {{ stage }}:
+    <div class="countdown-container card">
+    <span class="note-title">Countdown</span>
+    <table style="width: 100%;">
+        <tr v-for="(value, key) in modelValue" :key="key">
+            <td style="width: 0.1%; white-space: nowrap;">
+                <div style="width: min-content;">
+                    {{ key }}:
+                </div>
             </td>
-            <td>
-                <input/>
+            <td style="white-space:nowrap;">
+                <n-input 
+                    type="textarea"
+                    size="small"
+                    :autosize="{minRows: 1}"
+                    style="width:100%;box-sizing: border-box;"
+                    :value="value"
+                    @update:value="onCountdownInput(key, $event)"/>
             </td>
         </tr>
     </table>
+    </div>
 </template>
 
 <script>
+import { NInput } from "naive-ui";
 export default {
-    data: () => ({
-        "phases": ['Day', 'Shadows', 'Sunset', 'Dusk', 'Nightfall', 'Midnight']
-    })
+    components: {
+        NInput
+    },
+    props: {
+        modelValue: Object
+    },
+    methods: {
+        onCountdownInput(key, newValue){
+            const copy = Object.assign({}, this.modelValue)
+            copy[key] = newValue
+            this.$emit('update:modelValue', copy)
+        }
+    }
 }
 </script>
 
 <style scoped>
-table {
-    border-style: solid;
-    border-width: 1px;
+.countdown-container {
     padding: 10px;
-    box-sizing: border-box;
     width: 100%;
 }
 </style>
