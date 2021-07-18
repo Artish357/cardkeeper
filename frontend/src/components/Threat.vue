@@ -99,19 +99,27 @@
           </td>
         </tr>
       </tbody>
+      <tr class="no-print">
+        <td colspan="2">
+          <n-button style="width:100%" type="warning" size="small" @click="$emit('delete')">
+            Delete this Threat
+          </n-button>
+        </td>
+      </tr>
     </table>
   </SheetCard>
 </template>
 <script>
 import SheetCard from "@/components/SheetCard";
-import { NInputGroup, NInput, NSwitch } from "naive-ui";
+import { NInputGroup, NInput, NSwitch, NButton } from "naive-ui";
 
 export default {
   components: {
     SheetCard,
     NInputGroup,
     NInput,
-    NSwitch
+    NSwitch,
+    NButton
   },
   props: {
     modelValue: null,

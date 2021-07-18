@@ -12,7 +12,7 @@
         </div>
         <n-grid :cols="2">
           <n-gi v-for="(threat, i) in value.threats" :key="i">
-            <Threat v-model="value.threats[i]" />
+            <Threat v-model="value.threats[i]" @delete="deleteThreat(value.threats[i].id)"/>
           </n-gi>
           <n-gi class="no-print" style="position: relative; min-height:330px">
             <div class="card newThreatCard" @click="newThreat">
@@ -72,6 +72,9 @@ export default {
         border: "1px solid #999",
         paddingSmall: "0 8px"
       },
+      Button: {
+        textColorWarning: "black"
+      }
     },
   }),
   created() {
@@ -93,6 +96,11 @@ export default {
       const response = await client.newThreat(this.mysteryId);
       this.value.threats.push(response.data["data"]);
     },
+    async deleteThreat(threatId){
+      const client = await this.$client
+      await client.deleteThreat(threatId)
+      this.value.threats = this.value.threats.filter(threat => threat.id !== threatId)
+    }
   },
 };
 </script>
