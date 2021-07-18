@@ -5,11 +5,12 @@
         <tr v-for="(value, key) in modelValue" :key="key">
             <td style="width: 0.1%; white-space: nowrap;">
                 <div style="width: min-content;">
-                    {{ key }}:
+                    {{ capitalize(key) }}: 
                 </div>
             </td>
             <td style="white-space:nowrap;">
-                <n-input 
+                <n-input
+                    :placeholder="`What happens during the ${key}?`"
                     type="textarea"
                     size="small"
                     :autosize="{minRows: 1}"
@@ -36,8 +37,13 @@ export default {
             const copy = Object.assign({}, this.modelValue)
             copy[key] = newValue
             this.$emit('update:modelValue', copy)
+        },
+        capitalize (value) {
+            if (!value) return ''
+            value = value.toString()
+            return value.charAt(0).toUpperCase() + value.slice(1)
         }
-    }
+    },
 }
 </script>
 

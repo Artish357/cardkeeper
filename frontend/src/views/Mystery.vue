@@ -3,12 +3,12 @@
     <n-config-provider :theme-overrides="themeOverride">
       <div class="mystery" v-if="value" style="padding: 5px">
         <div class="top">
-          <NoteBlock v-model="value.concept" title="Concept" />
-          <NoteBlock v-model="value.hook" title="Hook" />
+          <NoteBlock v-model="value.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
+          <NoteBlock v-model="value.hook" title="Hook" placeholder="How does the mystery start?"/>
         </div>
         <div class="top">
           <Countdown v-model="value.countdown" />
-          <NoteBlock v-model="value.notes" title="Notes" />
+          <NoteBlock v-model="value.notes" title="Notes" placeholder="Additional notes"/>
         </div>
         <n-grid :cols="2">
           <n-gi v-for="(threat, i) in value.threats" :key="i">
@@ -69,8 +69,9 @@ export default {
         caretColor: "black",
         borderHover: "1px solid black",
         borderFocus: "1px solid black",
-        border: "1px solid #999",
-        paddingSmall: "0 8px"
+        border: "1px solid #777",
+        paddingSmall: "0 8px",
+        placeholderColor: "#777"
       },
       Button: {
         textColorWarning: "black"
@@ -137,7 +138,7 @@ export default {
 .card {
   margin: 5px;
   border-radius: 5px;
-  background-color: #eee;
+  background-color: #ddd;
   border-width: 2px;
   border-style: solid;
   border-color: #555;

@@ -7,6 +7,7 @@
                 :autosize="{minRows: 3}"
                 style="width:100%;"
                 :value=modelValue
+                :placeholder="placeholder"
                 @update:value="$emit('update:modelValue', $event)"
             ></n-input>
         </div>
@@ -19,7 +20,8 @@ import { NInput } from "naive-ui";
 export default {
     props: {
         title: String,
-        modelValue: String
+        modelValue: String,
+        placeholder: String
     },
     components: {
         SheetCard,
