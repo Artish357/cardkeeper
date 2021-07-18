@@ -10,7 +10,7 @@ dotenv.config({
   path: '.env'
 });
 
-const port = process.env.APP_PORT || 5000; 
+const port = process.env.APP_PORT || 3000; 
 
 const app = express();
 await models.sequelize.sync()
