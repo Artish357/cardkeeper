@@ -32,7 +32,7 @@
           <n-input size="small" placeholder="Motivation" :value="modelValue.motivation" @update:value="updateField('motivation', $event)"/>
         </td>
       </tr>
-      <tr>
+      <tr class="no-print">
           <td>
               <label :for="`monster-checkbox-${modelValue.id}`">Is it a monster?</label>
           </td>

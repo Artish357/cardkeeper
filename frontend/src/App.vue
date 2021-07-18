@@ -41,3 +41,9 @@
   margin-bottom: 10px;
 }
 </style>
+
+<style>
+@media print {
+  .no-print { display: none; }
+}
+</style>

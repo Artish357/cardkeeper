@@ -14,7 +14,7 @@
           <n-gi v-for="(threat, i) in value.threats" :key="i">
             <Threat v-model="value.threats[i]" />
           </n-gi>
-          <n-gi style="position: relative; min-height:330px">
+          <n-gi class="no-print" style="position: relative; min-height:330px">
             <div class="card newThreatCard" @click="newThreat">
               <h1 class="centerText">
                 New Threat
