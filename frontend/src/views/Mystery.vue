@@ -1,32 +1,30 @@
 <template>
-  <n-theme-editor>
-    <n-config-provider :theme-overrides="themeOverride">
-      <div class="mystery" v-if="value" style="padding: 5px">
-        <div class="top">
-          <NoteBlock v-model="value.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
-          <NoteBlock v-model="value.hook" title="Hook" placeholder="How does the mystery start?"/>
-        </div>
-        <div class="top">
-          <Countdown v-model="value.countdown" />
-          <NoteBlock v-model="value.notes" title="Notes" placeholder="Additional notes"/>
-        </div>
-        <n-grid :cols="2">
-          <n-gi v-for="(threat, i) in value.threats" :key="i">
-            <Threat v-model="value.threats[i]" @delete="deleteThreat(value.threats[i].id)"/>
-          </n-gi>
-          <n-gi class="no-print" style="position: relative; min-height:330px">
-            <div class="card newThreatCard" @click="newThreat">
-              <h1 class="centerText">
-                New Threat
-              </h1>
-            </div>
-          </n-gi>
-        </n-grid>
-        <button @click="saveMystery">Save</button>
+  <n-config-provider :theme-overrides="themeOverride">
+    <div class="mystery" v-if="value" style="padding: 5px">
+      <div class="top">
+        <NoteBlock v-model="value.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
+        <NoteBlock v-model="value.hook" title="Hook" placeholder="How does the mystery start?"/>
       </div>
-    </n-config-provider>
-    <n-global-style />
-  </n-theme-editor>
+      <div class="top">
+        <Countdown v-model="value.countdown" />
+        <NoteBlock v-model="value.notes" title="Notes" placeholder="Additional notes"/>
+      </div>
+      <n-grid :cols="2">
+        <n-gi v-for="(threat, i) in value.threats" :key="i">
+          <Threat v-model="value.threats[i]" @delete="deleteThreat(value.threats[i].id)"/>
+        </n-gi>
+        <n-gi class="no-print" style="position: relative; min-height:330px">
+          <div class="card newThreatCard" @click="newThreat">
+            <h1 class="centerText">
+              New Threat
+            </h1>
+          </div>
+        </n-gi>
+      </n-grid>
+      <button @click="saveMystery">Save</button>
+    </div>
+  </n-config-provider>
+  <n-global-style />
 </template>
 
 <script>
@@ -36,7 +34,6 @@ import Threat from "@/components/Threat";
 import {
   NGrid,
   NGi,
-  NThemeEditor,
   NConfigProvider,
   NGlobalStyle
 } from "naive-ui";
@@ -51,7 +48,6 @@ export default {
     Threat,
     NGrid,
     NGi,
-    NThemeEditor,
     NConfigProvider,
     NGlobalStyle
   },

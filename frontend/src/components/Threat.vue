@@ -8,7 +8,7 @@
       <tr>
         <td class="shrink">Name:</td>
         <td>
-          <n-input placeholder="Name" :value="modelValue.name" @update:value="updateField('name', $event)"/>
+          <n-input size="small" placeholder="Name" :value="modelValue.name" @update:value="updateField('name', $event)"/>
         </td>
       </tr>
       <tr>
