@@ -1,5 +1,5 @@
 async function getClient(){
-    const OpenAPIClientAxios = await import('openapi-client-axios');
+    const OpenAPIClientAxios = (await import(/* webpackChunkName: "openapi" */ 'openapi-client-axios')).default
     const api = new OpenAPIClientAxios({ definition: 'http://localhost:3000/api/openapi.json' });
     api.init();
     return api.getClient();
