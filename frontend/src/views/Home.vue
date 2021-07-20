@@ -1,10 +1,28 @@
 <template>
-  Mysteries:
-  <div v-for="(mystery, index) in mysteries" :key="index">
-    <router-link :to="`/mystery/${mystery.id}`">{{ mystery.id }}</router-link>
-    <button @click="deleteMystery(mystery.id)">X</button>
+  <div style="margin: auto; width: max-content; text-align: center">
+    <h3>Mysteries:</h3>
+    <table style="width: 300px">
+      <tr v-for="(mystery, index) in mysteries" :key="index">
+        <td>
+          <div class="card card-clickable">
+            <router-link :to="`/mystery/${mystery.id}`">{{
+              mystery.id
+            }}</router-link>
+          </div>
+        </td>
+        <td style="width:50px;">
+          <div class="card card-clickable" @click="deleteMystery(mystery.id)">
+            X
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="card card-clickable" @click="newMystery">New mystery</div>
+        </td>
+      </tr>
+    </table>
   </div>
-  <button @click="newMystery">New mystery</button>
 </template>
 
 <script>
@@ -24,15 +42,15 @@ export default {
       });
     },
     async newMystery() {
-      const client = await this.$client
-      await client.newMystery()
-      this.loadMysteries() 
+      const client = await this.$client;
+      await client.newMystery();
+      this.loadMysteries();
     },
     async deleteMystery(id) {
-      const client = await this.$client
-      await client.deleteMystery(id)
-      this.loadMysteries()
-    }
+      const client = await this.$client;
+      await client.deleteMystery(id);
+      this.loadMysteries();
+    },
   },
 };
 </script>

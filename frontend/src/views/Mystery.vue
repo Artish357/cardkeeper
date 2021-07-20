@@ -14,7 +14,7 @@
           <Threat v-model="value.threats[i]" @delete="deleteThreat(value.threats[i].id)"/>
         </n-gi>
         <n-gi class="no-print" style="position: relative; min-height:330px">
-          <div class="card newThreatCard" @click="newThreat">
+          <div class="card newThreatCard card-clickable" @click="newThreat">
             <h1 class="centerText">
               New Threat
             </h1>
@@ -133,42 +133,5 @@ export default {
 
 .column {
   padding: 5px;
-}
-</style>
-
-<style>
-.card {
-  margin: 5px;
-  border-radius: 5px;
-  background-color: #ddd;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #555;
-  padding: 5px;
-}
-.newThreatCard {
-  text-align: center;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-}
-.newThreatCard:hover {
-  border: 2px solid #999;
-  color: black;
-  background-color: #e5e5e5;
-  cursor: pointer;
-}
-.centerText {
-  right: 50%;
-  bottom: 50%;
-  transform: translate(50%,50%);
-  position: absolute;
-  justify-content: center;
-}
-* {
-  color-adjust: exact; 
-  -webkit-print-color-adjust: exact;
 }
 </style>
