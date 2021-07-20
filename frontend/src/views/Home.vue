@@ -4,11 +4,11 @@
     <table style="width: 300px">
       <tr v-for="(mystery, index) in mysteries" :key="index">
         <td>
-          <div class="card card-clickable">
-            <router-link :to="`/mystery/${mystery.id}`">{{
-              mystery.id
-            }}</router-link>
-          </div>
+          <router-link :to="`/mystery/${mystery.id}`"> 
+            <div class="card card-clickable">
+              {{ mystery.id }}
+            </div>
+          </router-link>
         </td>
         <td style="width:50px;">
           <div class="card card-clickable" @click="deleteMystery(mystery.id)">
