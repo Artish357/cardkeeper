@@ -23,19 +23,24 @@
       </n-grid>
       <button @click="saveMystery">Save</button>
     </div>
+    <div v-else class="mystery">
+      <n-skeleton text :repeat="20"/>
+    </div>
+    <n-global-style />
   </n-config-provider>
-  <n-global-style />
 </template>
 
 <script>
-import NoteBlock from "@/components/NoteBlock";
-import Countdown from "@/components/Countdown";
-import Threat from "@/components/Threat";
+import { defineAsyncComponent } from "vue";
+const NoteBlock = defineAsyncComponent(() => import("@/components/NoteBlock"));
+const Countdown = defineAsyncComponent(() => import("@/components/Countdown"));
+const Threat = defineAsyncComponent(() => import("@/components/Threat"));
 import {
   NGrid,
   NGi,
   NConfigProvider,
-  NGlobalStyle
+  NGlobalStyle,
+  NSkeleton
 } from "naive-ui";
 
 
@@ -49,7 +54,8 @@ export default {
     NGrid,
     NGi,
     NConfigProvider,
-    NGlobalStyle
+    NGlobalStyle,
+    NSkeleton
   },
   data: () => ({
     value: null,
@@ -159,6 +165,7 @@ export default {
   bottom: 50%;
   transform: translate(50%,50%);
   position: absolute;
+  justify-content: center;
 }
 * {
   color-adjust: exact; 
