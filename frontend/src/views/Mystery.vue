@@ -1,6 +1,9 @@
 <template>
   <n-config-provider :theme-overrides="themeOverride">
     <div class="mystery" v-if="value" style="padding: 5px">
+      <div class="" style="text-align:center">
+        <input class="title" placeholder="Mystery Name"/>
+      </div>
       <div class="top">
         <NoteBlock v-model="value.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
         <NoteBlock v-model="value.hook" title="Hook" placeholder="How does the mystery start?"/>
@@ -115,6 +118,17 @@ export default {
   margin-left:auto;
   margin-right:auto; 
 }
+
+.title {
+  width: 90%;
+  font-size: 2rem;
+  text-align: center;
+  background: none;
+  border-width: 0px 0px 2px 0px;
+  border-style: solid;
+  border-color: #555;
+}
+
 .right-border {
   border-right: 1px;
   border-right-style: solid;

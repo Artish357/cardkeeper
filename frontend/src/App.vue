@@ -15,6 +15,7 @@
 }
 #nav {
   padding: 5px;
+  text-align: center;
 }
 
 #nav a {
