@@ -141,7 +141,7 @@ export default {
     const synced = ref(true)
     const threatData = reactive(Object.assign({}, props.modelValue))
     watch(threatData, ()=>{
-      emit('update:updateModel', threatData)
+      emit('update:modelValue', threatData)
       synced.value = false
     })
     return Object.assign({threatData, synced}, setupUpdate(threatData, synced, 'updateThreat'))
@@ -196,6 +196,6 @@ td > input:not([type]) {
   border-radius: 5px;
 }
 .hp-content > * > input {
-  max-width: 100px;
+  max-width: 4em;
 }
 </style>
