@@ -24,7 +24,6 @@
           </div>
         </n-gi>
       </n-grid>
-      <button @click="saveMystery">Save</button>
     </div>
     <div v-else class="mystery">
       <n-skeleton text :repeat="20"/>
