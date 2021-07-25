@@ -2,7 +2,7 @@
   <n-config-provider :theme-overrides="themeOverride">
     <div class="mystery" v-if="modelValue.id" style="padding: 5px">
       <div class="" style="text-align:center">
-        <input class="title" placeholder="Mystery Name"/>
+        <input class="title" v-model="modelValue.name" placeholder="Mystery Name"/>
       </div>
       <div class="top">
         <NoteBlock v-model="modelValue.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>

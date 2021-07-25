@@ -6,7 +6,7 @@
         <td>
           <router-link :to="`/mystery/${mystery.id}`"> 
             <div class="card card-clickable">
-              {{ mystery.id }}
+              {{ mystery.name || mystery.id }}
             </div>
           </router-link>
         </td>

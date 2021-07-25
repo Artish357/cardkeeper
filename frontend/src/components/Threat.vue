@@ -21,7 +21,7 @@
               placeholder="Type"
               style="width: 40%"
             />
-            <n-input style="width:60%" size="small" placeholder="Subtype"/>
+            <n-input v-model:value="threatData.subtype" style="width:60%" size="small" placeholder="Subtype"/>
           </n-input-group>
         </td>
       </tr>
@@ -61,6 +61,12 @@
           <td class="shrink">Attacks:</td>
           <td>
             <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Attacks" v-model:value="threatData.attacks"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="shrink">Armor:</td>
+          <td>
+            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Armor" v-model:value="threatData.armour"/>
           </td>
         </tr>
         <tr>
