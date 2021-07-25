@@ -28,6 +28,7 @@ export default function (sequelize, DataTypes) {
     }
   }
   Mystery.init({
+    name: { type: DataTypes.STRING, defaultValue: "" }, 
     concept: { type: DataTypes.TEXT, defaultValue: "" },
     hook: { type: DataTypes.TEXT, defaultValue: "" },
     countdown_day: { type: DataTypes.STRING, defaultValue: "" },
