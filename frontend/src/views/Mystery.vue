@@ -1,20 +1,23 @@
 <template>
   <n-config-provider :theme-overrides="themeOverride">
-    <div class="mystery" v-if="value" style="padding: 5px">
-      <div class="top">
-        <NoteBlock v-model="value.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
-        <NoteBlock v-model="value.hook" title="Hook" placeholder="How does the mystery start?"/>
+    <div class="mystery" v-if="modelValue.id" style="padding: 5px">
+      <div class="" style="text-align:center">
+        <input class="title" placeholder="Mystery Name"/>
       </div>
       <div class="top">
-        <Countdown v-model="value.countdown" />
-        <NoteBlock v-model="value.notes" title="Notes" placeholder="Additional notes"/>
+        <NoteBlock v-model="modelValue.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
+        <NoteBlock v-model="modelValue.hook" title="Hook" placeholder="How does the mystery start?"/>
+      </div>
+      <div class="top">
+        <Countdown v-model="modelValue.countdown" />
+        <NoteBlock v-model="modelValue.notes" title="Notes" placeholder="Additional notes"/>
       </div>
       <n-grid :cols="2">
-        <n-gi v-for="(threat, i) in value.threats" :key="i">
-          <Threat v-model="value.threats[i]" @delete="deleteThreat(value.threats[i].id)"/>
+        <n-gi v-for="(threat, i) in threats" :key="threat.id">
+          <Threat v-model="threats[i]" @delete="deleteThreat(threats[i].id)"/>
         </n-gi>
         <n-gi class="no-print" style="position: relative; min-height:330px">
-          <div class="card newThreatCard" @click="newThreat">
+          <div class="card newThreatCard card-clickable" @click="newThreat">
             <h1 class="centerText">
               New Threat
             </h1>
@@ -23,19 +26,26 @@
       </n-grid>
       <button @click="saveMystery">Save</button>
     </div>
+    <div v-else class="mystery">
+      <n-skeleton text :repeat="20"/>
+    </div>
+    <n-global-style />
   </n-config-provider>
-  <n-global-style />
 </template>
 
 <script>
-import NoteBlock from "@/components/NoteBlock";
-import Countdown from "@/components/Countdown";
-import Threat from "@/components/Threat";
+import { defineAsyncComponent, ref, watch, reactive } from "vue";
+import { useRoute } from 'vue-router'
+import { setupUpdate } from "../plugins/cardkeeper-client";
+const NoteBlock = defineAsyncComponent(() => import("@/components/NoteBlock"));
+const Countdown = defineAsyncComponent(() => import("@/components/Countdown"));
+const Threat = defineAsyncComponent(() => import("@/components/Threat"));
 import {
   NGrid,
   NGi,
   NConfigProvider,
-  NGlobalStyle
+  NGlobalStyle,
+  NSkeleton
 } from "naive-ui";
 
 
@@ -49,11 +59,10 @@ export default {
     NGrid,
     NGi,
     NConfigProvider,
-    NGlobalStyle
+    NGlobalStyle,
+    NSkeleton
   },
   data: () => ({
-    value: null,
-    mysteryId: null,
     /**
      * @type import('naive-ui').GlobalThemeOverrides
      */
@@ -74,29 +83,37 @@ export default {
       }
     },
   }),
-  created() {
-    this.mysteryId = this.$route.params.id;
-    this.$client.then((client) => {
-      client.getMystery(this.mysteryId).then((response) => {
-        this.value = response.data["data"];
+  setup() {
+    const modelValue = reactive({})
+    const threats = reactive([])
+    const synced = ref(true)
+    const { client } = setupUpdate(modelValue, synced, 'updateMystery')
+    const mysteryId = ref(useRoute().params.id);
+    client.then((readyClient) => {
+      readyClient.getMystery(mysteryId.value).then((response) => {
+        Object.assign(modelValue, response.data["data"]);
+        delete modelValue.threats
+        threats.push(...response.data["data"].threats)
+        watch(() => modelValue, () => {
+            synced.value=false
+        }, {'deep': true})
       });
     });
+    return {modelValue, synced, client, mysteryId, threats}
   },
   methods: {
-    async saveMystery() {
-      const client = await this.$client;
-      const update = await client.updateMystery(this.mysteryId, this.value);
-      console.log(update.data);
-    },
     async newThreat() {
-      const client = await this.$client;
+      const client = await this.client;
       const response = await client.newThreat(this.mysteryId);
-      this.value.threats.push(response.data["data"]);
+      this.threats.push(response.data["data"]);
     },
     async deleteThreat(threatId){
-      const client = await this.$client
+      console.log(threatId)
+      const client = await this.client
       await client.deleteThreat(threatId)
-      this.value.threats = this.value.threats.filter(threat => threat.id !== threatId)
+      const removeIndex = this.threats.findIndex(threat=>threat.id===threatId)
+      console.log(removeIndex)
+      this.threats.splice(removeIndex, 1)
     }
   },
 };
@@ -109,6 +126,17 @@ export default {
   margin-left:auto;
   margin-right:auto; 
 }
+
+.title {
+  width: 90%;
+  font-size: 2rem;
+  text-align: center;
+  background: none;
+  border-width: 0px 0px 2px 0px;
+  border-style: solid;
+  border-color: #555;
+}
+
 .right-border {
   border-right: 1px;
   border-right-style: solid;
@@ -127,41 +155,5 @@ export default {
 
 .column {
   padding: 5px;
-}
-</style>
-
-<style>
-.card {
-  margin: 5px;
-  border-radius: 5px;
-  background-color: #ddd;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #555;
-  padding: 5px;
-}
-.newThreatCard {
-  text-align: center;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-}
-.newThreatCard:hover {
-  border: 2px solid #999;
-  color: black;
-  background-color: #e5e5e5;
-  cursor: pointer;
-}
-.centerText {
-  right: 50%;
-  bottom: 50%;
-  transform: translate(50%,50%);
-  position: absolute;
-}
-* {
-  color-adjust: exact; 
-  -webkit-print-color-adjust: exact;
 }
 </style>

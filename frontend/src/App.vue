@@ -15,6 +15,7 @@
 }
 #nav {
   padding: 5px;
+  text-align: center;
 }
 
 #nav a {
@@ -40,9 +41,42 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
-</style>
 
-<style>
+.card {
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #ddd;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #555;
+  padding: 5px;
+}
+.card-clickable:hover{
+  border: 2px solid #999;
+  color: black;
+  background-color: #e5e5e5;
+  cursor: pointer;
+}
+.newThreatCard {
+  text-align: center;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+.centerText {
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%,50%);
+  position: absolute;
+  justify-content: center;
+}
+* {
+  color-adjust: exact; 
+  -webkit-print-color-adjust: exact;
+}
+
 @media print {
   .no-print { display: none; }
 }
