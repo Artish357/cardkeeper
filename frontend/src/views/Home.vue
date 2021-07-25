@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: auto; width: max-content; text-align: center">
+  <div v-if="loaded" style="margin: auto; width: max-content; text-align: center">
     <h3>Mysteries:</h3>
     <table style="width: 300px">
       <tr v-for="(mystery, index) in mysteries" :key="index">
@@ -23,12 +23,18 @@
       </tr>
     </table>
   </div>
+  <n-skeleton repeat="10" v-else/>
 </template>
 
 <script>
+import { NSkeleton } from "naive-ui";
 export default {
+  components: {
+    NSkeleton
+  },
   data: () => ({
     mysteries: [],
+    loaded: false
   }),
   created() {
     this.loadMysteries();
@@ -40,6 +46,7 @@ export default {
         client.getMysteries().then((response) => {
           this.mysteries = response.data["data"];
         });
+        this.loaded = true
       });
     },
     async newMystery() {
