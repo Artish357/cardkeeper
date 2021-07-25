@@ -13,7 +13,7 @@
         <NoteBlock v-model="modelValue.notes" title="Notes" placeholder="Additional notes"/>
       </div>
       <n-grid :cols="2">
-        <n-gi v-for="(threat, i) in threats" :key="i">
+        <n-gi v-for="(threat, i) in threats" :key="threat.id">
           <Threat v-model="threats[i]" @delete="deleteThreat(threats[i].id)"/>
         </n-gi>
         <n-gi class="no-print" style="position: relative; min-height:330px">
@@ -108,9 +108,12 @@ export default {
       this.threats.push(response.data["data"]);
     },
     async deleteThreat(threatId){
+      console.log(threatId)
       const client = await this.client
       await client.deleteThreat(threatId)
-      this.threats = this.threats.filter(threat => threat.id !== threatId)
+      const removeIndex = this.threats.findIndex(threat=>threat.id===threatId)
+      console.log(removeIndex)
+      this.threats.splice(removeIndex, 1)
     }
   },
 };
