@@ -1,20 +1,20 @@
 <template>
   <n-config-provider :theme-overrides="themeOverride">
-    <div class="mystery" v-if="value" style="padding: 5px">
+    <div class="mystery" v-if="modelValue.id" style="padding: 5px">
       <div class="" style="text-align:center">
         <input class="title" placeholder="Mystery Name"/>
       </div>
       <div class="top">
-        <NoteBlock v-model="value.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
-        <NoteBlock v-model="value.hook" title="Hook" placeholder="How does the mystery start?"/>
+        <NoteBlock v-model="modelValue.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
+        <NoteBlock v-model="modelValue.hook" title="Hook" placeholder="How does the mystery start?"/>
       </div>
       <div class="top">
-        <Countdown v-model="value.countdown" />
-        <NoteBlock v-model="value.notes" title="Notes" placeholder="Additional notes"/>
+        <Countdown v-model="modelValue.countdown" />
+        <NoteBlock v-model="modelValue.notes" title="Notes" placeholder="Additional notes"/>
       </div>
       <n-grid :cols="2">
-        <n-gi v-for="(threat, i) in value.threats" :key="i">
-          <Threat v-model="value.threats[i]" @delete="deleteThreat(value.threats[i].id)"/>
+        <n-gi v-for="(threat, i) in threats" :key="i">
+          <Threat v-model="threats[i]" @delete="deleteThreat(threats[i].id)"/>
         </n-gi>
         <n-gi class="no-print" style="position: relative; min-height:330px">
           <div class="card newThreatCard card-clickable" @click="newThreat">
@@ -34,7 +34,9 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, ref, watch, reactive } from "vue";
+import { useRoute } from 'vue-router'
+import { setupUpdate } from "../plugins/cardkeeper-client";
 const NoteBlock = defineAsyncComponent(() => import("@/components/NoteBlock"));
 const Countdown = defineAsyncComponent(() => import("@/components/Countdown"));
 const Threat = defineAsyncComponent(() => import("@/components/Threat"));
@@ -61,8 +63,6 @@ export default {
     NSkeleton
   },
   data: () => ({
-    value: null,
-    mysteryId: null,
     /**
      * @type import('naive-ui').GlobalThemeOverrides
      */
@@ -83,29 +83,34 @@ export default {
       }
     },
   }),
-  created() {
-    this.mysteryId = this.$route.params.id;
-    this.$client.then((client) => {
-      client.getMystery(this.mysteryId).then((response) => {
-        this.value = response.data["data"];
+  setup() {
+    const modelValue = reactive({})
+    const threats = reactive([])
+    const synced = ref(true)
+    const { client } = setupUpdate(modelValue, synced, 'updateMystery')
+    const mysteryId = ref(useRoute().params.id);
+    client.then((readyClient) => {
+      readyClient.getMystery(mysteryId.value).then((response) => {
+        Object.assign(modelValue, response.data["data"]);
+        delete modelValue.threats
+        threats.push(...response.data["data"].threats)
+        watch(() => modelValue, () => {
+            synced.value=false
+        }, {'deep': true})
       });
     });
+    return {modelValue, synced, client, mysteryId, threats}
   },
   methods: {
-    async saveMystery() {
-      const client = await this.$client;
-      const update = await client.updateMystery(this.mysteryId, this.value);
-      console.log(update.data);
-    },
     async newThreat() {
-      const client = await this.$client;
+      const client = await this.client;
       const response = await client.newThreat(this.mysteryId);
-      this.value.threats.push(response.data["data"]);
+      this.threats.push(response.data["data"]);
     },
     async deleteThreat(threatId){
-      const client = await this.$client
+      const client = await this.client
       await client.deleteThreat(threatId)
-      this.value.threats = this.value.threats.filter(threat => threat.id !== threatId)
+      this.threats = this.threats.filter(threat => threat.id !== threatId)
     }
   },
 };

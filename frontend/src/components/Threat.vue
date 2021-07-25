@@ -8,7 +8,7 @@
       <tr>
         <td class="shrink">Name:</td>
         <td>
-          <n-input size="small" placeholder="Name" :value="modelValue.name" @update:value="updateField('name', $event)"/>
+          <n-input size="small" placeholder="Name" v-model:value="threatData.name"/>
         </td>
       </tr>
       <tr>
@@ -17,8 +17,7 @@
           <n-input-group>
             <n-input
               size="small"
-              :value="modelValue.type"
-              @update:value="updateField('type', $event)"
+              v-model:value="threatData.type"
               placeholder="Type"
               style="width: 40%"
             />
@@ -29,7 +28,7 @@
       <tr>
         <td class="shrink">Motivation:</td>
         <td>
-          <n-input size="small" placeholder="Motivation" :value="modelValue.motivation" @update:value="updateField('motivation', $event)"/>
+          <n-input size="small" placeholder="Motivation" v-model:value="threatData.motivation"/>
         </td>
       </tr>
       <tr class="no-print">
@@ -41,8 +40,7 @@
                 size="small"
                 :id="`monster-checkbox-${modelValue.id}`"
                 type="checkbox"
-                :value="modelValue.isMonster"
-                @update:value="updateField('isMonster', Boolean($event))"
+                v-model:value="threatData.isMonster"
             />
           </td>
       </tr>
@@ -50,19 +48,19 @@
         <tr>
           <td class="shrink">Powers:</td>
           <td>
-            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Powers" :value="modelValue.powers" @update:value="updateField('powers', $event)"/>
+            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Powers" v-model:value="threatData.powers"/>
           </td>
         </tr>
         <tr>
           <td class="shrink">Weaknesses:</td>
           <td>
-            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Weaknesses" :value="modelValue.weaknesses" @update:value="updateField('weaknesses', $event)"/>
+            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Weaknesses" v-model:value="threatData.weaknesses"/>
           </td>
         </tr>
         <tr>
           <td class="shrink">Attacks:</td>
           <td>
-            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Attacks" :value="modelValue.attacks" @update:value="updateField('attacks', $event)"/>
+            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Attacks" v-model:value="threatData.attacks"/>
           </td>
         </tr>
         <tr>
@@ -80,18 +78,16 @@
               <div class="hp-content">
                 <div>
                   <input
-                    :value="modelValue.harm"
+                    v-model.number="threatData.harm"
                     type="number"
                     min="0"
-                    :max="modelValue.harmCap"
-                    @input="updateField('harm', parseInt($event.target.value))"
+                    :max="threatData.harmCap"
                   />
                   /
                   <input
-                    :value="modelValue.harmCap"
+                    v-model.number="threatData.harmCap"
                     type="number"
                     :min="0"
-                    @input="updateField('harmCap', parseInt($event.target.value))"
                   />
                 </div>
               </div>
@@ -111,7 +107,9 @@
 </template>
 <script>
 import SheetCard from "@/components/SheetCard";
+import { ref, reactive, watch } from "vue";
 import { NInputGroup, NInput, NSwitch, NButton } from "naive-ui";
+import { setupUpdate } from "../plugins/cardkeeper-client";
 
 export default {
   components: {
@@ -122,7 +120,7 @@ export default {
     NButton
   },
   props: {
-    modelValue: null,
+    modelValue: null
   },
   computed: {
     hpPercentage() {
@@ -139,13 +137,15 @@ export default {
       }
     },
   },
-  methods: {
-    updateField(key, value) {
-      const copy = Object.assign({}, this.modelValue);
-      copy[key] = value;
-      this.$emit("update:modelValue", copy);
-    },
-  },
+  setup(props, {emit}) {
+    const synced = ref(true)
+    const threatData = reactive(Object.assign({}, props.modelValue))
+    watch(threatData, ()=>{
+      emit('update:updateModel', threatData)
+      synced.value = false
+    })
+    return Object.assign({threatData, synced}, setupUpdate(threatData, synced, 'updateThreat'))
+  }
 };
 </script>
 <style scoped>

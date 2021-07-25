@@ -33,21 +33,22 @@ export default {
   created() {
     this.loadMysteries();
   },
+  inject: ['client'],
   methods: {
     loadMysteries() {
-      this.$client.then((client) => {
+      this.client.then((client) => {
         client.getMysteries().then((response) => {
           this.mysteries = response.data["data"];
         });
       });
     },
     async newMystery() {
-      const client = await this.$client;
+      const client = await this.client;
       await client.newMystery();
       this.loadMysteries();
     },
     async deleteMystery(id) {
-      const client = await this.$client;
+      const client = await this.client;
       await client.deleteMystery(id);
       this.loadMysteries();
     },
