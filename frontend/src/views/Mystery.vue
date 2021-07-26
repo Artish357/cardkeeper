@@ -5,16 +5,34 @@
         <input class="title" v-model="modelValue.name" placeholder="Mystery Name"/>
       </div>
       <div class="top">
-        <NoteBlock v-model="modelValue.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
+        <suspense>
+          <template #default>
+            <NoteBlock v-model="modelValue.concept" title="Concept" placeholder="What is the mystery's basic concept?"/>
+          </template>
+          <template #fallback>
+            <n-spin>
+              <div class="card" style="height: 300px"/>
+            </n-spin>
+          </template>
+        </suspense>
         <NoteBlock v-model="modelValue.hook" title="Hook" placeholder="How does the mystery start?"/>
       </div>
       <div class="top">
         <Countdown v-model="modelValue.countdown" />
         <NoteBlock v-model="modelValue.notes" title="Notes" placeholder="Additional notes"/>
       </div>
-      <n-grid :cols="2">
-        <n-gi v-for="(threat, i) in threats" :key="threat.id">
-          <Threat v-model="threats[i]" @delete="deleteThreat(threats[i].id)"/>
+      <n-grid :cols="1">
+        <n-gi v-for="(threat, i) in threats" :key="threat.id" class="threat-container">
+          <suspense>
+            <template #default>
+              <Threat v-model="threats[i]" @delete="deleteThreat(threats[i].id)"/>
+            </template>
+            <template #fallback>
+              <n-spin>
+                <div class="card" style="height: 300px"/>
+              </n-spin>
+            </template>
+          </suspense>
         </n-gi>
         <n-gi class="no-print" style="position: relative; min-height:330px">
           <div class="card newThreatCard card-clickable" @click="newThreat">
@@ -36,16 +54,18 @@
 import { defineAsyncComponent, ref, watch, reactive } from "vue";
 import { useRoute } from 'vue-router'
 import { setupUpdate } from "../plugins/cardkeeper-client";
-const NoteBlock = defineAsyncComponent(() => import("@/components/NoteBlock"));
-const Countdown = defineAsyncComponent(() => import("@/components/Countdown"));
-const Threat = defineAsyncComponent(() => import("@/components/Threat"));
 import {
   NGrid,
   NGi,
   NConfigProvider,
   NGlobalStyle,
-  NSkeleton
+  NSkeleton,
+  NSpin
 } from "naive-ui";
+const NoteBlock = defineAsyncComponent(() => import("@/components/NoteBlock"));
+const Countdown = defineAsyncComponent(() => import("@/components/Countdown"));
+const Threat = defineAsyncComponent(() => import('../components/Threat.vue'));
+
 
 
 
@@ -59,7 +79,8 @@ export default {
     NGi,
     NConfigProvider,
     NGlobalStyle,
-    NSkeleton
+    NSkeleton,
+    NSpin
   },
   data: () => ({
     /**
