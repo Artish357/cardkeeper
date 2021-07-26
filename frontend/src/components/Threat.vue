@@ -1,133 +1,119 @@
 <template>
   <SheetCard v-if="modelValue" class="card">
-    <table>
-      <colgroup>
-        <col style="width:25%"/>
-        <col style="width:75%"/>
-      </colgroup>
-      <tr>
-        <td class="shrink">Name:</td>
-        <td>
-          <n-input size="small" placeholder="Name" v-model:value="threatData.name"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="shrink">Type:</td>
-        <td>
-          <n-input-group>
+    <n-space justify="space-between" style="margin-bottom: 5px">
+      <n-switch 
+        class="no-print"
+        size="small"
+        :id="`monster-checkbox-${modelValue.id}`"
+        type="checkbox"
+        v-model:value="threatData.isMonster"
+      />
+      <div class="no-print">
+        <n-button class="no-print corner-button" size="small">
+          Up
+        </n-button>
+        <n-button class="no-print corner-button" size="small">
+          Down
+        </n-button>
+        <n-button class="no-print corner-button" type="warning" size="small" @click="$emit('delete')">
+          Delete
+        </n-button>
+      </div>
+    </n-space>
+    <n-input class="threat-input" size="small" placeholder="Name" v-model:value="threatData.name"/>
+    <n-input-group class="threat-input">
             <n-input
               size="small"
               v-model:value="threatData.type"
               placeholder="Type"
-              style="width: 40%"
+              style="width: 50%"
             />
-            <n-input v-model:value="threatData.subtype" style="width:60%" size="small" placeholder="Subtype"/>
+            <n-input v-model:value="threatData.subtype" style="width:50.1%" size="small" placeholder="Subtype"/>
           </n-input-group>
-        </td>
-      </tr>
-      <tr>
-        <td class="shrink">Motivation:</td>
-        <td>
-          <n-input size="small" placeholder="Motivation" v-model:value="threatData.motivation"/>
-        </td>
-      </tr>
-      <tr class="no-print">
-          <td>
-              <label :for="`monster-checkbox-${modelValue.id}`">Is it a monster?</label>
-          </td>
-          <td>
-              <n-switch 
-                size="small"
-                :id="`monster-checkbox-${modelValue.id}`"
-                type="checkbox"
-                v-model:value="threatData.isMonster"
-            />
-          </td>
-      </tr>
-      <tbody :style="{visibility: modelValue.isMonster ? null : 'collapse'}">
-        <tr>
-          <td class="shrink">Powers:</td>
-          <td>
-            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Powers" v-model:value="threatData.powers"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="shrink">Weaknesses:</td>
-          <td>
-            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Weaknesses" v-model:value="threatData.weaknesses"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="shrink">Attacks:</td>
-          <td>
-            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Attacks" v-model:value="threatData.attacks"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="shrink">Armor:</td>
-          <td>
-            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Armor" v-model:value="threatData.armor"/>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <div class="hp-back">
-              <div
-                class="hp-fore"
-                v-if="modelValue.harm !== modelValue.harmCap"
-                :style="{
-                  left: hpPercentage,
-                  'border-top-left-radius': hpBorders,
-                  'border-bottom-left-radius': hpBorders,
-                }"
-              ></div>
-              <div class="hp-content">
-                <div>
-                  <input
-                    v-model.number="threatData.harm"
-                    type="number"
-                    min="0"
-                    :max="threatData.harmCap"
-                  />
-                  /
-                  <input
-                    v-model.number="threatData.harmCap"
-                    type="number"
-                    :min="0"
-                  />
-                </div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-      <tr class="no-print">
-        <td colspan="2">
-          <n-button style="width:100%" type="warning" size="small" @click="$emit('delete')">
-            Delete this Threat
-          </n-button>
-        </td>
-      </tr>
-    </table>
+    <n-grid :cols="threatData.isMonster ? 3 : 2">
+      <n-gi style="padding-right: 2px">
+        <ThreatInput placeholder="Motivation" v-model="threatData.motivation" :prefix="icons.TargetIcon"/>
+        <ThreatInput v-if="threatData.isMonster" placeholder="Notes" v-model="threatData.notes" :prefix="icons.NoteIcon"/>
+      </n-gi>
+      <n-gi v-if="threatData.isMonster" style="padding-left: 2px">
+        <ThreatInput placeholder="Powers" v-model="threatData.powers" :prefix="icons.PowerIcon"/>
+        <ThreatInput placeholder="Weaknesses" v-model="threatData.weaknesses" :prefix="icons.WeakIcon"/>
+      </n-gi>
+      <n-gi v-if="threatData.isMonster" style="padding-left: 2px">
+        <ThreatInput placeholder="Attacks" v-model="threatData.attacks" :prefix="icons.ClawIcon" />
+        <ThreatInput placeholder="Armor" v-model="threatData.armor" :prefix="icons.ShieldIcon"/>
+      </n-gi>
+      <n-gi v-else style="padding-left: 2px">
+        <ThreatInput placeholder="Notes" v-model="threatData.notes" :prefix="icons.NoteIcon"/>
+      </n-gi>
+    </n-grid>
+    <div class="hp-back">
+      <div
+        class="hp-fore"
+        v-if="modelValue.harm !== modelValue.harmCap"
+        :style="{
+          left: hpPercentage,
+          'border-top-left-radius': hpBorders,
+          'border-bottom-left-radius': hpBorders,
+        }"
+      ></div>
+      <div class="hp-content">
+        <div>
+          <input
+            v-model.number="threatData.harm"
+            type="number"
+            min="0"
+            :max="threatData.harmCap"
+          />
+          /
+          <input
+            v-model.number="threatData.harmCap"
+            type="number"
+            :min="0"
+          />
+        </div>
+      </div>
+    </div>
   </SheetCard>
 </template>
 <script>
 import SheetCard from "@/components/SheetCard";
+import ThreatInput from "@/components/ThreatInput";
 import { ref, reactive, watch } from "vue";
-import { NInputGroup, NInput, NSwitch, NButton } from "naive-ui";
+import { NInputGroup, NGrid, NGi, NInput, NSwitch, NButton, NSpace } from "naive-ui";
 import { setupUpdate } from "../plugins/cardkeeper-client";
+import ClawIcon from "../assets/midnight-claw.svg";
+import TargetIcon from "../assets/targeted.svg";
+import NoteIcon from "../assets/notebook.svg";
+import PowerIcon from "../assets/lightning-helix.svg";
+import WeakIcon from "../assets/achilles-heel.svg";
+import ShieldIcon from "../assets/checked-shield.svg";
 
 export default {
   components: {
     SheetCard,
+    ThreatInput,
     NInputGroup,
     NInput,
     NSwitch,
-    NButton
+    NButton,
+    NGrid,
+    NGi,
+    NSpace
   },
   props: {
     modelValue: null
   },
+  data: () => ({
+    icons: {
+      ClawIcon,
+      TargetIcon,
+      NoteIcon,
+      PowerIcon,
+      WeakIcon,
+      ShieldIcon
+    }
+  }),
   computed: {
     hpPercentage() {
       if (this.modelValue.harm <= 0 || this.modelValue.harmCap <= 0) {
@@ -203,5 +189,12 @@ td > input:not([type]) {
 }
 .hp-content > * > input {
   max-width: 4em;
+}
+.threat-input {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.corner-button {
+  margin: 0 2px;
 }
 </style>

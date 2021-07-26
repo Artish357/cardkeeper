@@ -95,11 +95,13 @@ export default {
         borderHover: "1px solid black",
         borderFocus: "1px solid black",
         border: "1px solid #777",
-        paddingSmall: "0 8px",
+        paddingSmall: "0 8px 0 2px",
         placeholderColor: "#777"
       },
       Button: {
-        textColorWarning: "black"
+        textColorWarning: "black",
+        borderWarning: "2px solid #555",
+        border: "2px solid #555"
       }
     },
   }),
