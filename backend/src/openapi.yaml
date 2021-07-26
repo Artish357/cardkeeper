@@ -209,6 +209,8 @@ components:
         id:
           type: integer
           readOnly: true
+        name:
+          type: string
         concept:
           type: string
         hook:
@@ -261,12 +263,14 @@ components:
           type: string
         attacks:
           type: string
-        armour:
+        armor:
           type: integer
         harm:
           type: integer
         harmCap:
           type: integer
+        notes:
+          type: string
     dataResponse:
       properties:
         status:

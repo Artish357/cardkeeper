@@ -20,9 +20,10 @@ export default function (sequelize, DataTypes) {
     powers: {type: DataTypes.TEXT, defaultValue: ""},
     weaknesses: {type: DataTypes.TEXT, defaultValue: ""},
     attacks: {type: DataTypes.TEXT, defaultValue: ""},
-    armour: {type: DataTypes.STRING, defaultValue: ""},
+    armor: {type: DataTypes.STRING, defaultValue: ""},
     harm: {type: DataTypes.INTEGER, defaultValue: 0},
-    harmCap: {type: DataTypes.INTEGER, defaultValue: 10}
+    harmCap: {type: DataTypes.INTEGER, defaultValue: 10},
+    notes: {type: DataTypes.TEXT, defaultValue: ""},
   },
   {
     sequelize,
