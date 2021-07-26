@@ -66,7 +66,7 @@
         <tr>
           <td class="shrink">Armor:</td>
           <td>
-            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Armor" v-model:value="threatData.armour"/>
+            <n-input size="small" type="textarea" :autosize="{minRows: 1}" placeholder="Armor" v-model:value="threatData.armor"/>
           </td>
         </tr>
         <tr>
