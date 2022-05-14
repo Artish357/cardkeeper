@@ -1,12 +1,49 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <n-config-provider :theme-overrides="themeOverride">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view/>
+  </n-config-provider>
 </template>
 
+<script>
+import { NConfigProvider } from "naive-ui";
+export default {
+  components: {
+    NConfigProvider
+  },
+  data: () => ({
+    /**
+     * @type import('naive-ui').GlobalThemeOverrides
+     */
+    themeOverride: {
+      common: {
+        primaryColor: "black",
+      },
+      Input: {
+        caretColor: "black",
+        borderHover: "1px solid black",
+        borderFocus: "1px solid black",
+        border: "1px solid #777",
+        paddingSmall: "0 8px 0 8px",
+        placeholderColor: "#777"
+      },
+      Button: {
+        textColorWarning: "black",
+        borderWarning: "2px solid #555",
+        border: "2px solid #555"
+      }
+    },
+  })
+}
+</script>
+
 <style>
+body {
+  line-height: 1.2;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

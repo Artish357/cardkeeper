@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme-overrides="themeOverride">
+  
     <div class="mystery" v-if="modelValue.id" style="padding: 5px">
       <div class="" style="text-align:center">
         <input class="title" v-model="modelValue.name" placeholder="Mystery Name"/>
@@ -46,8 +46,6 @@
     <div v-else class="mystery">
       <n-skeleton text :repeat="20"/>
     </div>
-    <n-global-style />
-  </n-config-provider>
 </template>
 
 <script>
@@ -57,8 +55,6 @@ import { setupUpdate } from "../plugins/cardkeeper-client";
 import {
   NGrid,
   NGi,
-  NConfigProvider,
-  NGlobalStyle,
   NSkeleton,
   NSpin
 } from "naive-ui";
@@ -77,33 +73,10 @@ export default {
     Threat,
     NGrid,
     NGi,
-    NConfigProvider,
-    NGlobalStyle,
     NSkeleton,
     NSpin
   },
   data: () => ({
-    /**
-     * @type import('naive-ui').GlobalThemeOverrides
-     */
-    themeOverride: {
-      common: {
-        primaryColor: "black",
-      },
-      Input: {
-        caretColor: "black",
-        borderHover: "1px solid black",
-        borderFocus: "1px solid black",
-        border: "1px solid #777",
-        paddingSmall: "0 8px 0 2px",
-        placeholderColor: "#777"
-      },
-      Button: {
-        textColorWarning: "black",
-        borderWarning: "2px solid #555",
-        border: "2px solid #555"
-      }
-    },
   }),
   setup() {
     const modelValue = reactive({})
